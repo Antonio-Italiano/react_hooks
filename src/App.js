@@ -1,22 +1,35 @@
-import logo from './logo.svg';
+import React, {useEffect, useState} from 'react';
 import './App.css';
 
 function App() {
+  const photoUrl = 'https://jsonplaceholder.typicode.com/photos';
+  
+  const [photos, setPhotos] = useState([]);
+ 
+  useEffect(() => {
+  
+    fetch(photoUrl)
+    .then(res => res.json())
+    .then(photos => {
+      setPhotos(photos.slice(0, 20))
+    });
+    return () => {
+      
+    };
+  }, []);
+  
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <h1>ALBUMS</h1>
+        <ul>
+        {
+          photos.map( photo => 
+          <li key={photo.id}>
+            <img scr={photo.thumbnailUrl} title = {photo.title} alt={photo.title}/>
+          </li>)
+        }
+        </ul>
       </header>
     </div>
   );
